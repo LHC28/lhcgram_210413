@@ -4,7 +4,7 @@
 	<div>
 		<h3 class="mt-2"><b>회원가입</b></h3>
 		<div class="signUpBox d-flex justify-content-center align-items-center">
-			<div class="signUpbox1">
+			<div class="signUpBox1">
 				<div>ID</div>
 				<div class="d-flex">
 					<input type="text" class="form-control col-6" id="loginId" placeholder="ID를 입력해주세요.">
@@ -99,7 +99,7 @@
 				,success: function(data){
 					alert("회원가입 성공");
 					location.href="/user/sign_in_view";
-				}error: function(e){
+				},error: function(e){
 					alert("회원가입 실패");
 				}
 			});

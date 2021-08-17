@@ -47,4 +47,20 @@ public class UserRestController {
 		result.put("result", "success");
 		return result;
 	}
+	
+	@PostMapping("/sign_in")
+	public Map<String, String> signIn(
+			@RequestParam("loginId") String loginId
+			,@RequestParam("password") String password
+			){
+		String encryptPassword = EncryptUtils.md5(password);
+		Map<String, String> result = new HashMap<>();
+		User user = userBO.getUserByloginIdAndPassword(loginId, encryptPassword);
+		if(user==null) {
+			result.put("result", "fail");
+		}else {
+			result.put("result", "success");
+		}
+		return result;
+	}
 }

@@ -5,6 +5,10 @@
 .empty {height:10px;}
 .loginView {height:700px;}
 .signUpBox {height:500px; width:550px; border: 1px solid rgb(204,204,204); box-shadow: 10px 10px 5px rgb(204,204,204);}
-.signUpbox1 {height:450px; width:500px;}
+.signUpBox1 {height:450px; width:500px;}
 
+.loginBox {width:500px; height:300px; border: 1px solid rgb(204,204,204); box-shadow: 10px 10px 5px rgb(204,204,204);}
+
+#loginId {margin-left:-2px;}
+#password {margin-left:-2px;}
 
