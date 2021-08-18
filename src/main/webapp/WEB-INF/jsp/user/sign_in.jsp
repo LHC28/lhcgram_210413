@@ -46,7 +46,7 @@
 				,success: function(data){
 					if(data.result=="success"){
 						alert("성공");
-						location.href="/post"	
+						location.href="/post/post_list_view"	
 					}else{
 						alert("아이디 또는 비밀번호가 틀렸습니다.");
 					}

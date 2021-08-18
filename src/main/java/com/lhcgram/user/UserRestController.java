@@ -3,6 +3,9 @@ package com.lhcgram.user;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,15 +55,22 @@ public class UserRestController {
 	public Map<String, String> signIn(
 			@RequestParam("loginId") String loginId
 			,@RequestParam("password") String password
+			,HttpServletRequest request
 			){
 		String encryptPassword = EncryptUtils.md5(password);
 		Map<String, String> result = new HashMap<>();
 		User user = userBO.getUserByloginIdAndPassword(loginId, encryptPassword);
-		if(user==null) {
-			result.put("result", "fail");
-		}else {
+		if(user!=null) {
 			result.put("result", "success");
+			HttpSession session = request.getSession();
+			session.setAttribute("userLoginId",user.getLoginId());
+			session.setAttribute("userId", user.getId());
+			session.setAttribute("userName", user.getName());
+		}else {
+			result.put("result", "fail");
 		}
 		return result;
 	}
+	
+
 }

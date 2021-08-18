@@ -1,5 +1,8 @@
 package com.lhcgram.user;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,4 +22,17 @@ public class UserController {
 		model.addAttribute("viewName","user/sign_in");
 		return "template/layout";
 	}
+	
+	@RequestMapping("/sign_out")
+	public String signOut(
+			HttpServletRequest request
+			) {
+		HttpSession session = request.getSession();
+		session.removeAttribute("userLoginId");
+		session.removeAttribute("userId");
+		session.removeAttribute("user.name");
+		return "redirect:/user/sign_in_view";
+	}
+	
+	
 }
