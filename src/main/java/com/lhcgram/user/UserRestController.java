@@ -3,6 +3,7 @@ package com.lhcgram.user;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -61,16 +62,18 @@ public class UserRestController {
 		Map<String, String> result = new HashMap<>();
 		User user = userBO.getUserByloginIdAndPassword(loginId, encryptPassword);
 		if(user!=null) {
-			result.put("result", "success");
 			HttpSession session = request.getSession();
 			session.setAttribute("userLoginId",user.getLoginId());
 			session.setAttribute("userId", user.getId());
 			session.setAttribute("userName", user.getName());
+			result.put("result", "success");
 		}else {
 			result.put("result", "fail");
 		}
 		return result;
 	}
+	
+
 	
 
 }

@@ -50,3 +50,17 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	$(document).ready(function(){
+		
+		// 파일 업로드 이미지 클릭 -> 사용자가 파일 업로드를 할 수 있게 해줌. 
+		$('#fileUploadBtn').on('click',function(e){
+			e.preventDefault(); // a 태그의 기본 동작을 중단
+			$('#file').click(); // input file태그를 클릭한 것과 같은 동작
+		});
+		
+		
+		
+	});
+</script>
