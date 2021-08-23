@@ -1,19 +1,22 @@
 package com.lhcgram.timeline;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.lhcgram.timeline.model.Post;
+import com.lhcgram.post.model.Post;
+import com.lhcgram.timeline.bo.TimelineBO;
 
 @RequestMapping("/timeline")
 @Controller
 public class TimelineController {
+	
+	@Autowired
+	private TimelineBO timelineBO;
 
 	@RequestMapping("/timeline_list_view")
 	public String postListView(
@@ -27,7 +30,7 @@ public class TimelineController {
 			return "redirect:/user/user_in_view";
 		}
 		
-		List<Post> postList = postBO.getPostListByuserId(userId);
+		Post postList = timelineBO.getPostListByuserId(userId);
 		
 		model.addAttribute("viewName", "timeline/timeline_list");
 		return "template/layout";

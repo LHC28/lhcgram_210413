@@ -1,4 +1,4 @@
-package com.lhcgram.timeline.model;
+package com.lhcgram.post.model;
 
 import java.util.Date;
 

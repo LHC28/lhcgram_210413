@@ -24,7 +24,10 @@
 		</div>
 		<div class="d-flex justify-content-center mt-2">
 			<div class="contentLike d-flex align-items-center">
-				<img src="/static/images/heart-icon1.png" alt="" height="20px" width="20px">
+				<a href="#" onclick="return false" id="likeBtn">
+					<img src="/static/images/heart-icon1.png" alt="" height="20px" width="20px" id="like1">
+					<img src="/static/images/heart-icon2.png" alt="" height="20px" width="20px" id="like2" class="d-none">
+				</a>
 				<span class="ml-2"><b>좋아요 11개</b></span>
 			</div>
 		</div>
@@ -59,6 +62,71 @@
 			e.preventDefault(); // a 태그의 기본 동작을 중단
 			$('#file').click(); // input file태그를 클릭한 것과 같은 동작
 		});
+		
+		// 유효성 확인
+		$('#file').on('change',function(e){
+			let name = e.target.files[0].name; // 이미지 이름찍기
+			
+			// 이미지 확장자 validation
+			let extention = name.split('.');
+			if(extention.length<2 || (extention[extention.length-1] != 'gif'
+					&& extention[extention.length-1] != 'png'
+					&& extention[extention.length-1] != 'jpg'
+					&& extention[extention.length-1] != 'jpeg')){
+				alert("이미지 파일만 업로드할 수 있습니다.");
+				$(this).val(''); // input에 들어간 파일을 없애주는 역할.
+				return;
+			}
+			$('#fileName').text(name); // 이미지 파일 등록시 div안에 name을 가져온다.
+		});
+		
+		
+		// 업로드 하기
+		$('#writeBtn').on('click', function(e){
+			let content = $('#writeTextArea').val();
+			if(content.length<1){ // 1보다 작은건 내용이 없다는 것.
+				alert("내용을 입력해주세요.");
+				return;
+			}
+			
+			var formData = new FormData();
+			// ajax data가져오는 방식과 같은듯.
+			// 파일 가져오기
+			formData.append('file',$('#file')[0].files[0]);
+			// 내용 가져오기
+			formData.append('content', content);
+			
+			$.ajax({
+				type: 'post'
+				,url: '/post/create'
+				,data: formData
+				,enctype: 'multipart/form-data'
+				,processData: false
+				,contentType: false // 파일 업로드를 위한 필수 설정
+				,success: function(data){
+					if(data.result=='success'){
+						alert("게시물 등록 성공");
+						location.reload(); // 새로고침해서 게시물 올린거 보이게
+					}
+				},error: function(e){
+					alert("error : " +e);
+				}
+			});
+			
+		});
+		
+		// 좋아요 버튼 눌렀을 때
+		$('#likeBtn').on('click',function(e){
+			if($('#like1').hasClass('d-none')){
+				$('#like1').removeClass('d-none');
+				$('#like2').addClass('d-none');
+			}else{
+				$('#like1').addClass('d-none');
+				$('#like2').removeClass('d-none');
+			}
+		})
+		
+		
 		
 		
 		
