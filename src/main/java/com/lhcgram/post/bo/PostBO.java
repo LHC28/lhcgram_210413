@@ -1,6 +1,7 @@
 package com.lhcgram.post.bo;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.lhcgram.common.FileManagerService;
 import com.lhcgram.post.dao.PostDAO;
+import com.lhcgram.post.model.Post;
 
 @Service
 public class PostBO {
@@ -21,12 +23,17 @@ public class PostBO {
 	
 	@Autowired
 	private FileManagerService fileManagerService;
+	
+	public List<Post> getPostList(){
+		return postDAO.selectPostList();
+	}
 
 	public void postCreate(int userId, String userLoginId, String content, MultipartFile file) {
 		String imagePath = null;
 		if(file!=null) {
 			try {
 				imagePath = fileManagerService.saveFile(userLoginId, file);
+				System.out.println(imagePath);
 			} catch (IOException e) {
 				logger.error("######## 에러 확인 : " + e.getMessage());
 			}

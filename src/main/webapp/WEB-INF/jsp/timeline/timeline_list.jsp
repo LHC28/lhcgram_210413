@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="timelineBox d-flex justify-content-center">
 	<div class="timeline">
 		<%-- 선생님 코드 가져옴....textarea안에 button넣기 찾아봤는데 안 나온다...색 씌워보니 밑칸에 붙이기식으로 하면 될듯 --%>
@@ -15,20 +16,27 @@
 				<button id="writeBtn" class="btn btn-info">게시</button>
 			</div>
 		</div>
+		
+	<%-- 여기서부터 게시글 반복. --%>
+		<c:forEach var="content" items="${contentList}">
 		<div class="contentTitle d-flex justify-content-between align-items-center mt-4">
-			<h4 class="ml-3">lhcgram</h4>
+			<h4 class="ml-3 mt-1">${content.post.userName}</h4>
 			<a href="#" class="mr-3"><img src="/static/images/more-icon.png" alt="" width="30px" height="30px"></a>
 		</div>
+		<%-- 사진 부분 만약 없으면 출력 안 하는 것으로. --%>
+		<c:if test="${not empty content.post.imagePath}">
+		${content.post.imagePath}
 		<div class="d-flex justify-content-center mt-3">
-			<img src="https://cdn.pixabay.com/photo/2021/08/13/14/23/animal-6543231_960_720.jpg" alt="" width="300px" height="200px">
+			<img src="${content.post.imagePath}" alt="" width="300px" height="200px">
 		</div>
+		</c:if>
 		<div class="d-flex justify-content-center mt-2">
 			<div class="contentLike d-flex align-items-center">
 				<a href="#" onclick="return false" id="likeBtn">
 					<img src="/static/images/heart-icon1.png" alt="" height="20px" width="20px" id="like1">
 					<img src="/static/images/heart-icon2.png" alt="" height="20px" width="20px" id="like2" class="d-none">
 				</a>
-				<span class="ml-2"><b>좋아요 11개</b></span>
+				<span class="ml-2"><b>좋아요 ${content.like }개</b></span>
 			</div>
 		</div>
 		<div class="d-flex justify-content-center">
@@ -38,7 +46,7 @@
 		</div>
 		<div class="d-flex justify-content-center align-items-center">
 			<div class="contentCommentTitle d-flex align-items-center mt-2">
-				<span><b>댓글</b></span>
+				<span class="ml-2"><b>댓글</b></span>
 			</div>
 		</div>
 		<div class="d-flex justify-content-center align-items-center mt-2">
@@ -51,6 +59,7 @@
 			<input type="text" id="comment" class="form-control" placeholder="댓글 내용을 입력해주세요.">
 			<input type="button" class="btn commentBtn text-primary font-weight-bold" value="게시"> 
 		</div>
+		</c:forEach>
 	</div>
 </div>
 

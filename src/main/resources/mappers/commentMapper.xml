@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.lhcgram.timeline.dao.TimelineDAO">
-	<select id="selectPostListByuserId" resultType="com.lhcgram.post.model.Post">
+<mapper namespace="com.lhcgram.comment.dao.CommentDAO">
+	<select id="selectCommentList" resultType="com.lhcgram.comment.model.Comment">
 		SELECT
 			`id`
+			,`postId`
 			,`userId`
 			,`userName`
 			,`content`
-			,`imagePath`
 			,`createdAt`
 			,`updatedAt`
 		FROM
-			`post`
+			`comment`
 		WHERE
-			`id` = #{userId}
+			`postId` = #{postId}
 	</select>
 </mapper>
