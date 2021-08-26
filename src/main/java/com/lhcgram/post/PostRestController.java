@@ -6,20 +6,29 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.lhcgram.intercepter.PermissionInterceptor;
+import com.lhcgram.like.bo.LikeBO;
 import com.lhcgram.post.bo.PostBO;
 
 @RequestMapping("/post")
 @RestController
 public class PostRestController {
 	
+	private Logger logger = LoggerFactory.getLogger(PermissionInterceptor.class);
+	
 	@Autowired
 	private PostBO postBO;
+	
+	@Autowired
+	private LikeBO likeBO;
 
 	@RequestMapping("/create")
 	public Map<String,String> postCreate(
@@ -35,6 +44,27 @@ public class PostRestController {
 		Map<String, String> result = new HashMap<>();
 		result.put("result", "success");
 		return result;
-		
+	}
+	
+	// 좋아요 추가 및 삭제
+	@RequestMapping("/like")
+	public Map<String, String> likeCheck(
+			@RequestParam("postId") int postId
+			,HttpServletRequest request
+			){
+		Map<String, String> result = new HashMap<>();
+		HttpSession session = request.getSession();
+		int userId = (int)session.getAttribute("userId"); // 로그인 되어있는 user의 id가져오기
+		boolean check = likeBO.getLikeCheck(userId, postId);
+		// true : 있음 / false : 없음
+		if(check==true) { // 있는 경우 없애기
+			likeBO.removeMyLike(userId, postId);
+			result.put("result", "success");
+			return result;
+		}else { // 없는 경우 생성
+			likeBO.addMyLike(userId, postId);
+			result.put("result", "success");
+			return result;
+		}
 	}
 }

@@ -9,9 +9,11 @@ public class Content {
 	// post 1개
 	private Post post;
 	// post - 좋아요 N개
+	private List<Comment> commentList;
 	private int like;
 	// post - 댓글 N개
 	private boolean likeClick;
+	
 	
 	public boolean isLikeClick() {
 		return likeClick;
@@ -19,7 +21,6 @@ public class Content {
 	public void setLikeClick(boolean likeClick) {
 		this.likeClick = likeClick;
 	}
-	private List<Comment> commentList;
 	
 	public Post getPost() {
 		return post;

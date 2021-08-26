@@ -3,16 +3,30 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.lhcgram.like.dao.LikeDAO">
+	<insert id="addMyLike" parameterType="map">
+		INSERT INTO `like`
+		(
+		`userId`
+		,`postId`
+		,`createdAt`
+		)
+		values
+		(
+		#{userId}
+		,#{postId}
+		,NOW()
+		)
+	</insert>
+	
 	<select id="selectLikeCount" resultType="Integer">
 		SELECT
-			`userId`
-			,`postId`
-			,`createdAt`
+		COUNT(`userId`)
 		FROM
 			`like`
 		WHERE
 			`postId` = #{postId}
 	</select>
+	
 	<select id="selectMylike" resultType="com.lhcgram.like.model.Like">
 		SELECT
 			`userId`
@@ -23,4 +37,25 @@
 		WHERE
 			`userId` = #{userId}
 	</select>
+	
+	<select id="selectLikeCheck" parameterType="map" resultType="com.lhcgram.like.model.Like">
+		SELECT
+			`userId`
+			,`postId`
+			,`createdAt`
+		FROM
+			`like`
+		WHERE
+			`userId` = #{userId}
+			AND `postId` = #{postId}
+	</select>
+	
+	<delete id="removeMyLike" parameterType="map">
+		DELETE
+		FROM
+			`like`
+		WHERE
+			userId = #{userId}
+			AND postId = #{postId}
+	</delete>
 </mapper>

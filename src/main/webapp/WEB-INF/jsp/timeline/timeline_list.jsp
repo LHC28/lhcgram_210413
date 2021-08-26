@@ -18,30 +18,40 @@
 		</div>
 		
 	<%-- 여기서부터 게시글 반복. --%>
-		<c:forEach var="content" items="${contentList}">
+	<c:forEach var="content" items="${contentList}">
 		<div class="contentTitle d-flex justify-content-between align-items-center mt-4">
 			<h4 class="ml-3 mt-1">${content.post.userName}</h4>
 			<a href="#" class="mr-3"><img src="/static/images/more-icon.png" alt="" width="30px" height="30px"></a>
 		</div>
 		<%-- 사진 부분 만약 없으면 출력 안 하는 것으로. --%>
 		<c:if test="${not empty content.post.imagePath}">
-		${content.post.imagePath}
 		<div class="d-flex justify-content-center mt-3">
 			<img src="${content.post.imagePath}" alt="" width="300px" height="200px">
 		</div>
 		</c:if>
 		<div class="d-flex justify-content-center mt-2">
 			<div class="contentLike d-flex align-items-center">
-				<a href="#" onclick="return false" id="likeBtn">
-					<img src="/static/images/heart-icon1.png" alt="" height="20px" width="20px" id="like1">
-					<img src="/static/images/heart-icon2.png" alt="" height="20px" width="20px" id="like2" class="d-none">
+				<%-- 좋아요 --%>
+				
+				<%-- 로그인 한 userId와 게시물의 id가 필요하다. --%>
+				<a href="#" onclick="return false" class="likeBtn" data-post-id="${content.post.id }" data-user-id="${userId}">
+				<%-- return false는 클릭시 창이 위로가는 것을 방지. --%>
+				<c:if test="${content.likeClick eq true }">
+					<img src="/static/images/heart-icon2.png" alt="" height="20px" width="20px" class="like2">
+				</c:if>
+				<c:if test="${content.likeClick eq false }">
+					<img src="/static/images/heart-icon1.png" alt="" height="20px" width="20px" class="like1">
+				</c:if>
 				</a>
 				<span class="ml-2"><b>좋아요 ${content.like }개</b></span>
+				
+				
+				
 			</div>
 		</div>
 		<div class="d-flex justify-content-center">
 			<div class="contentContent">
-				<span><b>lhc</b> 동물이 한 마리 있습니다.아주 멋진 돼지 한 마리에요. 마치 저를 보는 것 같군요</span>
+				<span><b>${content.post.userName }</b> ${content.post.content}</span>
 			</div>
 		</div>
 		<div class="d-flex justify-content-center align-items-center">
@@ -49,17 +59,20 @@
 				<span class="ml-2"><b>댓글</b></span>
 			</div>
 		</div>
+		<%-- 댓글 반복 --%>
+		<c:forEach var="comment" items="${content.commentList }">
 		<div class="d-flex justify-content-center align-items-center mt-2">
 			<div class="contentComment d-flex align-items-center">
-				<div class="commentId">abcdefg</div>
-				<div class="comment">이야 정말 당신을 닮은 동물이군요!!!</div>
+				<div class="commentId">${comment.userName }</div>
+				<div class="comment">comment.content</div>
 			</div>
 		</div>
+		</c:forEach>
 		<div class="d-flex mt-3">
-			<input type="text" id="comment" class="form-control" placeholder="댓글 내용을 입력해주세요.">
+			<input type="text" class="comment form-control mr-2" placeholder="댓글 내용을 입력해주세요.">
 			<input type="button" class="btn commentBtn text-primary font-weight-bold" value="게시"> 
 		</div>
-		</c:forEach>
+	</c:forEach>
 	</div>
 </div>
 
@@ -125,14 +138,26 @@
 		});
 		
 		// 좋아요 버튼 눌렀을 때
-		$('#likeBtn').on('click',function(e){
-			if($('#like1').hasClass('d-none')){
-				$('#like1').removeClass('d-none');
-				$('#like2').addClass('d-none');
-			}else{
-				$('#like1').addClass('d-none');
-				$('#like2').removeClass('d-none');
-			}
+		$('.likeBtn').on('click',function(e){
+			let userId = $(this).data('user-id');
+			let postId = $(this).data('post-id');
+			// 취소시 해당 like DB 삭제 반영, 좋아요시 등록해야 한다.
+			// 좋아요 취소.
+			$.ajax({
+				type:'post'
+				,url: '/post/like'
+				,data: {"userId":userId, "postId":postId}
+				,success: function(data){
+					if(data.result=="success"){
+						
+						location.reload();
+					}else{
+						alert("좋아요 실패... 관리자에게 문의해주세요.");
+					}
+				},error: function(e){
+					alert("###########error : "+error);
+				}
+			});
 		})
 		
 		

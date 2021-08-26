@@ -7,7 +7,7 @@ public class Post {
 	private int id;
 	private int userId;
 	private String userName;
-	private String text;
+	private String content;
 	private String imagePath;
 	private Date createdAt;
 	private Date updatedAt;
@@ -30,11 +30,11 @@ public class Post {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public String getText() {
-		return text;
+	public String getContent() {
+		return content;
 	}
-	public void setText(String text) {
-		this.text = text;
+	public void setContent(String content) {
+		this.content = content;
 	}
 	public String getImagePath() {
 		return imagePath;

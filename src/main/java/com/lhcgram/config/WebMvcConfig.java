@@ -24,7 +24,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/images/**")
-		.addResourceLocations("C:\\springproject\\projectquiz\\projectQuizWorkspace\\lhcgram\\images/");
+		.addResourceLocations("file:///C:\\springproject\\projectquiz\\projectQuizWorkspace\\lhcgram\\images/");
+		
 		// 사진을 웹주소로 가져올 수 있도록 하는 역할.
 	}
 	
