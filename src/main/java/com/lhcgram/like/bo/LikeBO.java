@@ -21,8 +21,8 @@ public class LikeBO {
 		return likeDAO.selectLikeCount(postId);
 	}
 	// 내가 좋아요 눌렀는지 확인하기
-	public boolean getMyLike(int userId) {
-		 if(likeDAO.selectMylike(userId)==null) {
+	public boolean getMyLike(int userId, int postId) {
+		 if(likeDAO.selectMylike(userId, postId)==null) {
 			 return false; // 안 누른 상태
 		 }else {
 			 return true; // 누른 상태

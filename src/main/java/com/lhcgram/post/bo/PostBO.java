@@ -24,6 +24,10 @@ public class PostBO {
 	@Autowired
 	private FileManagerService fileManagerService;
 	
+	public Post getPost(int postId) {
+		return postDAO.selectPost(postId);
+	}
+	
 	public List<Post> getPostList(){
 		return postDAO.selectPostList();
 	}
@@ -40,5 +44,9 @@ public class PostBO {
 		}
 		
 		postDAO.postCreate(userId, userLoginId, content, imagePath);
+	}
+	
+	public void delete(int userId, int postId) {
+		postDAO.delete(userId, postId);
 	}
 }

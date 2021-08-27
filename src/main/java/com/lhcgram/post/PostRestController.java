@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.lhcgram.intercepter.PermissionInterceptor;
 import com.lhcgram.like.bo.LikeBO;
 import com.lhcgram.post.bo.PostBO;
+import com.lhcgram.post.model.Post;
 
 @RequestMapping("/post")
 @RestController
@@ -66,5 +67,28 @@ public class PostRestController {
 			result.put("result", "success");
 			return result;
 		}
+	}
+	
+	// 게시물 삭제
+	@RequestMapping("/delete")
+	public Map<String, String> delete(
+			@RequestParam("postId") int postId
+			,HttpServletRequest request
+			){
+		HttpSession session = request.getSession();
+		Integer userId = (Integer) session.getAttribute("userId");
+		Map<String, String> result = new HashMap<>();
+		
+		Post post = postBO.getPost(postId);
+		System.out.println(userId);
+		System.out.println(post.getUserId());
+		if(post.getUserId()==userId) {
+			postBO.delete(userId, postId);
+			result.put("result", "success");
+		}else {
+			result.put("result", "fail");
+		}
+				
+		return result;
 	}
 }

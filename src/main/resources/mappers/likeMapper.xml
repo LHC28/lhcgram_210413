@@ -36,6 +36,7 @@
 			`like`
 		WHERE
 			`userId` = #{userId}
+			AND `postId` = #{postId}
 	</select>
 	
 	<select id="selectLikeCheck" parameterType="map" resultType="com.lhcgram.like.model.Like">

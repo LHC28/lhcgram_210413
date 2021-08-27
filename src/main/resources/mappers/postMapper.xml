@@ -2,6 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lhcgram.post.dao.PostDAO">
+
+	<select id="selectPost" resultType="com.lhcgram.post.model.Post">
+		SELECT
+			`id`
+			,`userId`
+			,`userName`
+			,`content`
+			,`imagePath`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`post`
+		WHERE
+			`id` = #{postId}
+	</select>
 	
 	<select id="selectPostList" resultType="com.lhcgram.post.model.Post">
 		SELECT
@@ -37,4 +52,13 @@
 			,NOW()
 		)
 	</insert>
+	
+	<delete id="delete" parameterType="map">
+		DELETE
+		FROM
+			`post`
+		WHERE
+			`id` = #{postId}
+			AND `userId` = #{userId}
+	</delete>
 </mapper>

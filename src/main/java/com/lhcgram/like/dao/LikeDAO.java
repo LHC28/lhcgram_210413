@@ -10,7 +10,9 @@ public interface LikeDAO {
 	
 	public Integer selectLikeCount(int postId);
 	
-	public Like selectMylike(int userId);
+	public Like selectMylike(
+			@Param("userId") int userId
+			,@Param("postId") int postId);
 	
 	public Like selectLikeCheck(
 			@Param("userId") int userId

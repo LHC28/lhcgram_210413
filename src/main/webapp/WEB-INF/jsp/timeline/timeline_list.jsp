@@ -21,7 +21,12 @@
 	<c:forEach var="content" items="${contentList}">
 		<div class="contentTitle d-flex justify-content-between align-items-center mt-4">
 			<h4 class="ml-3 mt-1">${content.post.userName}</h4>
-			<a href="#" class="mr-3"><img src="/static/images/more-icon.png" alt="" width="30px" height="30px"></a>
+			<c:if test="${userId eq content.post.userId}">
+				<a href="#" class="more-btn" data-toggle="modal" data-target="#moreModal" data-post-id="${content.post.id}">
+					<img src="/static/images/more-icon.png" alt="" width="30px" height="30px">
+				</a>
+			</c:if>
+			
 		</div>
 		<%-- 사진 부분 만약 없으면 출력 안 하는 것으로. --%>
 		<c:if test="${not empty content.post.imagePath}">
@@ -64,15 +69,39 @@
 		<div class="d-flex justify-content-center align-items-center mt-2">
 			<div class="contentComment d-flex align-items-center">
 				<div class="commentId">${comment.userName }</div>
-				<div class="comment">comment.content</div>
+				<div class="comment">${comment.content}</div>
 			</div>
+			<c:if test="${userName eq comment.userName }">
+				<a href="#" class="commentDelBtn" onclick="return false" data-comment-id="${comment.id}">
+					<img src = "/static/images/cancelBtn.png" alt="" width="15px" heigth="15px">
+				</a>
+			</c:if>
 		</div>
 		</c:forEach>
-		<div class="d-flex mt-3">
-			<input type="text" class="comment form-control mr-2" placeholder="댓글 내용을 입력해주세요.">
-			<input type="button" class="btn commentBtn text-primary font-weight-bold" value="게시"> 
-		</div>
+		<c:if test="${not empty userId}">
+			<div class="d-flex mt-3">
+				<input type="text" id="commentText${content.post.id}" class="comment form-control mr-2" placeholder="댓글 내용을 입력해주세요.">
+				<input type="button" class="btn commentBtn text-primary font-weight-bold" data-post-id="${content.post.id }" value="게시"> 
+			</div>
+		</c:if>
 	</c:forEach>
+	</div>
+</div>
+
+<div class="modal" id="moreModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<%-- Modal 창 안에 내용 넣기 --%>
+			<div class="w-100">
+				<div class="my-3 text-center">
+					<a href="#" class="del-post d-block">삭제하기</a><%-- 클릭할 수 있는 영역을 넓히기 위해 d-block --%>
+				</div>
+				<div class="border-top py-3 text-center">
+					<%-- data-dismiss: 모달창 닫힘 --%>
+					<a href="#" class="cancel d-block" data-dismiss="modal">취소</a> <%-- 클릭할 수 있는 영역을 넓히기 위해 d-block --%>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -103,7 +132,7 @@
 		});
 		
 		
-		// 업로드 하기
+		// 게시글 업로드 하기
 		$('#writeBtn').on('click', function(e){
 			let content = $('#writeTextArea').val();
 			if(content.length<1){ // 1보다 작은건 내용이 없다는 것.
@@ -149,7 +178,6 @@
 				,data: {"userId":userId, "postId":postId}
 				,success: function(data){
 					if(data.result=="success"){
-						
 						location.reload();
 					}else{
 						alert("좋아요 실패... 관리자에게 문의해주세요.");
@@ -160,9 +188,68 @@
 			});
 		})
 		
+		// 댓글 달기
+		$('.commentBtn').on('click',function(e){
+			e.preventDefault();
+			let postId = $(this).data('post-id');
+			// 좋아요처럼 클래스로 값이 가져와지지 않아 id값을 가지고 댓글칸의 내용을 가져오도록 함..
+			let comment = $('#commentText'+postId).val();
+			// 댓글 추가시 필요한 항목 : userId, postId, userName, content
+			$.ajax({
+				type: 'post'
+				,data: {"postId":postId, "content":comment}
+				,url: '/comment/create'
+				,success: function(data){
+					if(data.result=='success'){
+						location.reload();
+					}else{
+						alert("댓글 등록 실패... 관리자에게 문의해주세요.");
+					}
+				},error: function(e){
+					alert("에러발생 : "+e);
+				}
+			});
+			
+		});
 		
+		//댓글 삭제
+		$('.commentDelBtn').on('click',function(e){
+			let commentId = $(this).data('comment-id');
+			
+			$.ajax({
+				type: 'post'
+				,url: '/comment/delete'
+				,data: {"commentId":commentId}
+				,success: function(data){
+					location.reload();
+				},error: function(e){
+					alert("에러 발생 : "+e);
+				}
+			});
+		});
 		
-		
+		// modal 창의 삭제하기 클릭시
+		// 더보기 > 글삭제 클릭
+		$('#moreModal .del-post').on('click', function(e) {
+			e.preventDefault();
+			
+			let postId = $('.more-btn').data('post-id');
+			
+			$.ajax({
+				type:'post'
+				,url:'/post/delete'
+				,data: {"postId":postId}
+				,success: function(data) {
+					if (data.result == 'success') {
+						location.reload();
+					}else{
+						alert("자신의 게시물만 삭제 가능합니다.");
+					}
+				},error: function(e) {
+					alert("삭제하기 에러 : "+e)
+				}
+			});
+		});
 		
 	});
 </script>

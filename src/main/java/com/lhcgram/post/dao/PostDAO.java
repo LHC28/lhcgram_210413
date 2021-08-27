@@ -10,6 +10,8 @@ import com.lhcgram.post.model.Post;
 @Repository
 public interface PostDAO {
 	
+	public Post selectPost(int postId);
+	
 	public List<Post> selectPostList();
 
 	public void postCreate(
@@ -17,4 +19,8 @@ public interface PostDAO {
 			,@Param("userLoginId") String userLoginId
 			,@Param("content") String content
 			,@Param("imagePath") String imagePath);
+	
+	public void delete(
+			@Param("userId") int userId
+			,@Param("postId") int postId);
 }
