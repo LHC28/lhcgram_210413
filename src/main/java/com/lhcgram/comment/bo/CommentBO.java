@@ -22,7 +22,11 @@ public class CommentBO {
 		commentDAO.create(userId, postId, userName, content);
 	}
 	
-	public void delete(int commentId) {
-		commentDAO.delete(commentId);
+	public void deleteById(int commentId) {
+		commentDAO.deleteById(commentId);
+	}
+	
+	public void deleteByPostId(int postId) {
+		commentDAO.deleteByPostId(postId);
 	}
 }

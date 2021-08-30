@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.lhcgram.comment.bo.CommentBO;
 import com.lhcgram.intercepter.PermissionInterceptor;
 import com.lhcgram.like.bo.LikeBO;
 import com.lhcgram.post.bo.PostBO;
@@ -30,6 +31,8 @@ public class PostRestController {
 	
 	@Autowired
 	private LikeBO likeBO;
+	
+	@Autowired CommentBO commentBO; 
 
 	@RequestMapping("/create")
 	public Map<String,String> postCreate(
@@ -80,9 +83,9 @@ public class PostRestController {
 		Map<String, String> result = new HashMap<>();
 		
 		Post post = postBO.getPost(postId);
-		System.out.println(userId);
-		System.out.println(post.getUserId());
 		if(post.getUserId()==userId) {
+			likeBO.removeMyLike(userId, postId);
+			commentBO.deleteByPostId(postId);
 			postBO.delete(userId, postId);
 			result.put("result", "success");
 		}else {

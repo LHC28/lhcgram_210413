@@ -39,11 +39,19 @@
 		)
 	</insert>
 	
-	<delete id="delete">
+	<delete id="deleteById">
 		DELETE
 		FROM
 			`comment`
 		WHERE
 			`id` = #{commentId}
+	</delete>
+	
+	<delete id="deleteByPostId">
+		DELETE
+		FROM
+			`comment`
+		WHERE
+			`postId` = #{postId}
 	</delete>
 </mapper>

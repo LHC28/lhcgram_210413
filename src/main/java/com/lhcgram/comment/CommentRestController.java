@@ -44,7 +44,7 @@ public class CommentRestController {
 	Map<String, String> delete(
 			@RequestParam("commentId") int commentId
 			){
-		commentBO.delete(commentId);
+		commentBO.deleteById(commentId);
 		
 		Map<String, String> result = new HashMap<>();
 		result.put("result", "success");

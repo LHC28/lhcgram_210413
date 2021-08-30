@@ -30,7 +30,7 @@ public class ContentBO {
 	private CommentBO commentBO;
 	
 	// 게시물 가져오기
-	public List<Content> getContentList(){
+	public List<Content> getContentList(Integer userId){
 		// 한번에 리턴할 항목
 		List<Content> contentList = new ArrayList<>();
 		
@@ -52,7 +52,7 @@ public class ContentBO {
 			
 			// 내가 좋아요 눌렀는지 아닌지 확인하기
 			// 접속한 내 아이디를 가지고 좋아요를 눌렀는지 확인하는 과정.
-			boolean likeCheck = likeBO.getMyLike(post.getUserId(), post.getId());  // 여기서 리스트를 가져올 때마다 true인지 false인지 확인
+			boolean likeCheck = likeBO.getMyLike(userId, post.getId());  // 여기서 리스트를 가져올 때마다 true인지 false인지 확인
 			content.setLikeClick(likeCheck); // 있으면 true 없으면 false
 			
 			// 댓글 가져오기

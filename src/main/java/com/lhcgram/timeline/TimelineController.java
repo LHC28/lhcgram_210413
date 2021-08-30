@@ -35,7 +35,7 @@ public class TimelineController {
 		}
 		
 		// 게시글 관련 contentList 가져오기
-		List<Content> contentList = contentBO.getContentList();
+		List<Content> contentList = contentBO.getContentList(userId);
 		
 		// jsp에서 가져다 스기 위해 model 객체에 넣기.
 		model.addAttribute("contentList",contentList);
