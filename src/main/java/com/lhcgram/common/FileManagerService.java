@@ -43,8 +43,6 @@ public class FileManagerService {
 		// 파일 URI를 리턴
 		return "/images/" + directoryName + file.getOriginalFilename();
 		
-		
-		
 	}
 	
 	

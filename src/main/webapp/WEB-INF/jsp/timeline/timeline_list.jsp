@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="timelineBox d-flex justify-content-center">
 	<div class="timeline">
-		<%-- 선생님 코드 가져옴....textarea안에 button넣기 찾아봤는데 안 나온다...색 씌워보니 밑칸에 붙이기식으로 하면 될듯 --%>
+		<%-- textarea안에 button넣기 찾아봤는데 안 나온다...색 씌워보니 밑칸에 붙이기식으로 하면 될듯 --%>
 		<div class="write-box border rounded m-3">
 			<textarea id="writeTextArea" placeholder="내용을 입력해주세요" class="w-100 border-0"></textarea>
 			<div class="d-flex justify-content-between">
@@ -26,7 +26,6 @@
 					<img src="/static/images/more-icon.png" alt="" width="30px" height="30px">
 				</a>
 			</c:if>
-			
 		</div>
 		<%-- 사진 부분 만약 없으면 출력 안 하는 것으로. --%>
 		<c:if test="${not empty content.post.imagePath}">
@@ -37,7 +36,6 @@
 		<div class="d-flex justify-content-center mt-2">
 			<div class="contentLike d-flex align-items-center">
 				<%-- 좋아요 --%>
-				
 				<%-- 로그인 한 userId와 게시물의 id가 필요하다. --%>
 				<a href="#" onclick="return false" class="likeBtn" data-post-id="${content.post.id }" data-user-id="${userId}">
 				<%-- return false는 클릭시 창이 위로가는 것을 방지. --%>
@@ -49,9 +47,6 @@
 				</c:if>
 				</a>
 				<span class="ml-2"><b>좋아요 ${content.like }개</b></span>
-				
-				
-				
 			</div>
 		</div>
 		<div class="d-flex justify-content-center">

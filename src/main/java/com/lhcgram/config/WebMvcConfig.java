@@ -21,6 +21,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		.excludePathPatterns("/user/sign_out","/static/**","/error"); // 이것들 제외
 	}
 	
+
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/images/**")

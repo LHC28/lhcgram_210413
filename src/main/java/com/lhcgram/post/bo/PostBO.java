@@ -24,14 +24,17 @@ public class PostBO {
 	@Autowired
 	private FileManagerService fileManagerService;
 	
+	// 게시물 하나 가져오기
 	public Post getPost(int postId) {
 		return postDAO.selectPost(postId);
 	}
 	
+	// 게시물 여러 개 가져오기
 	public List<Post> getPostList(){
 		return postDAO.selectPostList();
 	}
 
+	// 게시물 추가하기
 	public void postCreate(int userId, String userLoginId, String content, MultipartFile file) {
 		String imagePath = null;
 		if(file!=null) {
@@ -46,6 +49,7 @@ public class PostBO {
 		postDAO.postCreate(userId, userLoginId, content, imagePath);
 	}
 	
+	// 게시물 삭제하기
 	public void delete(int userId, int postId) {
 		postDAO.delete(userId, postId);
 	}

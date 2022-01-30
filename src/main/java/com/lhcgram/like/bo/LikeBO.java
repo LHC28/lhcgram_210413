@@ -17,9 +17,11 @@ public class LikeBO {
 	@Autowired
 	private LikeDAO likeDAO;
 	
+	// 좋아요 개수 가져오기
 	public Integer getLikeCount(int postId) {
 		return likeDAO.selectLikeCount(postId);
 	}
+	
 	// 내가 좋아요 눌렀는지 확인하기
 	public boolean getMyLike(int userId, int postId) {
 		 if(likeDAO.selectMylike(userId, postId)==null) {
@@ -28,6 +30,7 @@ public class LikeBO {
 			 return true; // 누른 상태
 		 }
 	}
+	
 	
 	public boolean getLikeCheck(int userId, int postId) {
 		Like check = likeDAO.selectLikeCheck(userId, postId);
@@ -38,10 +41,12 @@ public class LikeBO {
 		} 
 	}
 	
+	// 나의 좋아요 지우기
 	public void removeMyLike(int userId, int postId) {
 		likeDAO.removeMyLike(userId, postId);
 	}
 	
+	// 나의 좋아요 추가하기
 	public void addMyLike(int userId, int postId) {
 		likeDAO.addMyLike(userId, postId);
 	}
